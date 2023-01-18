@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {useGameId, useUsername} from "../hook";
 import {createGame} from "../api";
 
-export function NameUI(props: { visitFunc: (view: ViewState) => void }) {
+export function CreateOrJoinGame(props: { visitFunc: (view: ViewState) => void }) {
     const [username, setUsername] = useUsername();
     const [gameId, setGameId] = useGameId()
 
