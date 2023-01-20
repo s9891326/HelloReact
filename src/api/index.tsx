@@ -13,6 +13,16 @@ const backendAxios = axios.create({
     headers: defaultHeaders,
 });
 
+export async function joinGame(gameId: string, playerId: string) {
+    try {
+        const response = await backendAxios.post(`/games/${gameId}/player/${playerId}/join`);
+        return response.data;
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+}
+
 
 export async function createGame(playerId: string) {
     try {

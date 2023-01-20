@@ -5,20 +5,20 @@ function PlayerItem(props: {name: string, index: number}) {
     const {name, index} = props
     if (name === "-") {
         return (
-            <div key={index} className="bg-gray-400 m-4 p-2 min-h-[3rem] pl-3 rounded-xl flex items-center">
+            <div className="bg-gray-400 m-4 p-2 min-h-[3rem] pl-3 rounded-xl flex items-center">
                 玩家{index}：-
             </div>
         )
     }
 
     return (
-        <div key={index} className="bg-gray-200 m-4 p-2 min-h-[3rem] pl-3 rounded-xl flex items-center">
+        <div className="bg-gray-200 m-4 p-2 min-h-[3rem] pl-3 rounded-xl flex items-center">
             玩家{index}：{name}
         </div>
     )
 }
 
-export function GameStatusBoard(props: {gameStatus: GameStatus | null}) {
+export function  GameStatusBoard(props: {gameStatus: GameStatus | null}) {
     const { gameStatus } = props;
     let gameProgress = "...(未知)...";
 
