@@ -29,15 +29,23 @@ export function  GameStatusBoard(props: {gameStatus: GameStatus | null}) {
         { name: "-", index: 4 },
     ];
 
-    if (gameStatus != null && gameStatus.rounds.length === 0) {
-        gameProgress = "等待玩家加入中...";
-        if (gameStatus.rounds.length > 1) {
-            gameProgress = "等待遊戲開始...";
-        }
-
+    if (gameStatus != null) {
         gameStatus.players.map((p, idx) => {
             data[idx] = {name: p.name, index: idx + 1}
         });
+
+        if (gameStatus.rounds.length === 0) {
+            gameProgress = "等待玩家加入中...";
+            if (gameStatus.players.length >= 2) {
+                gameProgress = "等待遊戲開始...";
+            }
+        }
+
+        // the game has started
+        if (gameStatus.rounds.length > 0) {
+            const currentRound = gameStatus.rounds[gameStatus.rounds.length - 1];
+            gameProgress = `等待 ${currentRound.turn_player.name} 出牌~`;
+        }
     }
 
     return (

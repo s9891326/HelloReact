@@ -1,7 +1,7 @@
 import {GameStatus, ViewState} from "../types";
 import React, {useEffect, useState} from "react";
 import {GameStatusBoard} from "./GameStatusBoard";
-import {getGameStatus} from "../api";
+import {getGameStatus, startGame} from "../api";
 import {useGameId, useUsername} from "../hook";
 import {PlayerHand} from "./PlayerHand";
 import {Deck} from "./Deck";
@@ -15,7 +15,13 @@ function StartGameFunc(props: { gameStatus: GameStatus | null}) {
 
     if (gameStatus.players.length >= 2 && gameStatus.rounds.length === 0) {
         return (
-            <button className="bg-sky-500 hover:bg-sky-700">
+            <button className="bg-sky-500 hover:bg-sky-700"
+                    onClick={() => {
+                        startGame(gameStatus?.game_id).then((result) => {
+                            console.log(`${gameStatus?.game_id} started? => ${result}`);
+                        });
+                    }
+            }>
                 開始遊戲
             </button>
         )
