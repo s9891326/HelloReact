@@ -1,5 +1,6 @@
 import axios, {RawAxiosRequestHeaders} from "axios";
 import {GameStatus} from "../types";
+import { isEmpty } from "lodash";
 
 const defaultHeaders: RawAxiosRequestHeaders = {
     Accept: "application/json",
@@ -56,6 +57,9 @@ export async function playCard(
     card: string,
     payload: {[ props: string ]: string}
 ): Promise<GameStatus> {
-    const response = await backendAxios.post(`/games/${gameId}/player/${username}/card/${card}/play`);
+    const response = await backendAxios.post(
+        `/games/${gameId}/player/${username}/card/${card}/play`,
+        isEmpty(payload) ? null : payload
+    );
     return response.data;
 }

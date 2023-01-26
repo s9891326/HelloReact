@@ -44,16 +44,16 @@ export function GameRoom(props: { visitFunc: (view: ViewState) => void}) {
             setGameStatus(status);
         });
 
-        const intervalId = setInterval(() => {
-            // auto-refresh GameStatus
-            getGameStatus(gameId, username).then((status: GameStatus) => {
-                setGameStatus(status);
-            });
-        }, 5 * 1000);
-
-        return () => {
-            clearInterval(intervalId);
-        };
+        // const intervalId = setInterval(() => {
+        //     // auto-refresh GameStatus
+        //     getGameStatus(gameId, username).then((status: GameStatus) => {
+        //         setGameStatus(status);
+        //     });
+        // }, 5 * 1000);
+        //
+        // return () => {
+        //     clearInterval(intervalId);
+        // };
     }, []);
 
     return (

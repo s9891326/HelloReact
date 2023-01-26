@@ -22,6 +22,7 @@ export function GameEvents(props: { events?: Array<GameEvent> }) {
                 <div className="overflow-y-auto border-2 border-black shadow-2xl">
                     {events?.map((evt, index) => (
                         <>
+                            <RoundEventView event={evt} index={index}/>
                             <CardEventView event={evt} index={index}/>
                         </>
                     ))}
@@ -29,6 +30,27 @@ export function GameEvents(props: { events?: Array<GameEvent> }) {
             </div>
         </>
     )
+}
+
+
+function RoundEventView(props: { event: GameEvent, index: number }) {
+    const {event, index} = props;
+
+    if (event.type !== "round_started") {
+        return <></>
+    }
+
+    return (
+        <div className="m-1 p-2 min-h-[1rem] pl-3 rounded-xl flex items-center text-[12px]">
+            <p>round started: </p>
+            {event.winner && (
+                <>
+                    <p>{event.winner}</p>
+                    <p>成功送信給公主</p>
+                </>
+            )}
+        </div>
+    );
 }
 
 function CardEventView(props: { event: GameEvent, index: number }) {

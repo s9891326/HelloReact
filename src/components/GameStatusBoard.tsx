@@ -1,4 +1,6 @@
 import {GameStatus} from "../types";
+import {Seen} from "../types/game";
+import {useUsername} from "../hook";
 
 
 function PlayerItem(props: {name: string, index: number}) {
@@ -20,7 +22,9 @@ function PlayerItem(props: {name: string, index: number}) {
 
 export function  GameStatusBoard(props: {gameStatus: GameStatus | null}) {
     const { gameStatus } = props;
+    const [username] = useUsername();
     let gameProgress = "...(未知)...";
+    let seens: Array<Seen> = [];
 
     const data = [
         { name: "-", index: 1 },
@@ -45,12 +49,17 @@ export function  GameStatusBoard(props: {gameStatus: GameStatus | null}) {
         if (gameStatus.rounds.length > 0) {
             const currentRound = gameStatus.rounds[gameStatus.rounds.length - 1];
             gameProgress = `等待 ${currentRound.turn_player.name} 出牌~`;
+
+            currentRound.players.map((p) => {
+                if (p.name ===  username) {
+                    seens = p.seen_cards;
+                }
+            });
         }
     }
 
     return (
         <>
-            {gameStatus?.game_id}
             <div className="mb-5">
                 <h1>遊戲狀態</h1>
                 <div className="bg-gray-300 m-4 p-2 min-h-[3rem] pl-3 rounded-xl flex items-center">
@@ -60,6 +69,27 @@ export function  GameStatusBoard(props: {gameStatus: GameStatus | null}) {
                 {data.map((x) => (
                     <PlayerItem name={x.name} index={x.index} />
                 ))}
+            </div>
+            <div className="absolute top-2 left-2 border-2 border-black p-1 text-[10pt]">
+                <div>玩家資訊</div>
+                <div>gameId: {gameStatus?.game_id}</div>
+                <div>
+                    看到的牌：
+                    {seens.map((x) => (
+                        <SeenItem seen={x} />
+                    ))}
+                </div>
+            </div>
+        </>
+    );
+}
+
+export function SeenItem(props: { seen: Seen }) {
+    const { seen } = props;
+    return (
+        <>
+            <div className="text-gray-600">
+                看到 {seen.opponent_name} 持有 {seen.card.name}
             </div>
         </>
     );

@@ -1,9 +1,11 @@
 import {GameEvent} from "./event";
+import {Seen} from "./game";
 
 export type ViewState = "pick-name" | "game-list" | "game-room";
 
-interface NamedPlayer {
+export interface NamedPlayer {
     name: string;
+    score: number;
 }
 
 interface CardUsage {
@@ -23,6 +25,7 @@ interface Players {
     name: string;
     out: boolean;
     cards: Array<HandCard>;
+    seen_cards: Array<Seen>;
 }
 
 interface Round {

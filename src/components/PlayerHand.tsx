@@ -1,19 +1,17 @@
-import {GameStatus, HandCard} from "../types";
+import {GameStatus, HandCard, NamedPlayer} from "../types";
 import {useUsername} from "../hook";
 import {CardBack, CardFront} from "./Cards";
-import {Simulate} from "react-dom/test-utils";
-import play = Simulate.play;
 
-export function PlayerHand(props: {index: number, gameStatus: GameStatus | null}) {
+export function PlayerHand(props: { index: number, gameStatus: GameStatus | null }) {
     const [username] = useUsername()
-    const { index, gameStatus } = props
+    const {index, gameStatus} = props
 
     if (gameStatus == null) {
         return <CardBack enabled={false}/>;
     }
 
     if (gameStatus.players[index] === undefined) {
-        return <CardBack enabled={false} />;
+        return <CardBack enabled={false}/>;
     }
 
     let playerName = "";
@@ -53,8 +51,8 @@ export function PlayerHand(props: {index: number, gameStatus: GameStatus | null}
             {/* 如果是當前玩家，是畫面要呈現的玩家，顯示2張卡牌正面 */}
             {isTurnPlayer && isCurrentUser && (
                 <div className={"flex"}>
-                    {handCards.map((card) => (
-                        <CardFront key={`${card.name}${playerName}`} handCard={card}></CardFront>
+                    {handCards.map((card, index) => (
+                        <CardFront key={`${card.name}${playerName}_${index}`} handCard={card}></CardFront>
                     ))}
                 </div>
             )}
@@ -75,10 +73,23 @@ export function PlayerHand(props: {index: number, gameStatus: GameStatus | null}
                 className={`text-xs rounded-xl bg-amber-100 p-2 font-bold ${
                     isCurrentUser ? "border-2 border-amber-500" : ""
                 }`}
-                style={{ position: "absolute", top: "-2.5rem", left: 5 }}
+                style={{position: "absolute", top: "-2.5rem", left: 5}}
             >
-                {playerName}
+                {playerName} (#{getCurrentPlayer(playerName, gameStatus).score})
             </div>
         </div>
     )
+}
+
+function getCurrentPlayer(
+    username: string,
+    gameStatus: GameStatus
+): NamedPlayer {
+    let player: NamedPlayer = {name: "unknown", score: 0};
+    gameStatus.players.forEach((p) => {
+        if (p.name === username) {
+            player = p;
+        }
+    });
+    return player;
 }
