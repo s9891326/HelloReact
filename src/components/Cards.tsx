@@ -38,7 +38,7 @@ export function CardFront(props: { handCard: HandCard }) {
             <div className="flex flex-col absolute top-[15px] p-2 text-white items-center">
                 <div className="text-xs mb-1">{handCard.value}</div>
                 <div className="text-2xl">{handCard.name}</div>
-                <div className="text-[8pt] mt-2 p-1">{handCard.description}</div>
+                {/*<div className="text-[8pt] mt-2 p-1">{handCard.description}</div>*/}
             </div>
             <div>
                 <Action handCard={handCard} />
@@ -53,8 +53,6 @@ function Action(props: { handCard: HandCard }) {
     const { handCard } = props;
     const refChoosePlayer = useRef(null);
     const refGuessCard = useRef(null);
-    const testInput = useRef(null);
-
 
     console.log(handCard)
 
@@ -88,12 +86,10 @@ function Action(props: { handCard: HandCard }) {
                     onChange={(e) => {console.log(e.target.value)}}
                 >
                     {handCard.usage.can_guess_cards.map((c) => (
-                        <option value={c}>c</option>
+                        <option value={c}>{c}</option>
                     ))}
                 </select>
             )}
-
-            <input ref={testInput} placeholder={"test"}/>
 
             <button onClick={() => {
                 const payload: {[ props: string ]: string} = {};
@@ -105,6 +101,7 @@ function Action(props: { handCard: HandCard }) {
                 if (refGuessCard.current) {
                     payload.guess_card = (refGuessCard.current as unknown as HTMLSelectElement).value;
                 }
+                console.log(payload);
 
                 const result = playCard(gameId, username, handCard.name, payload);
             }}>

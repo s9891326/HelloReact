@@ -5,6 +5,7 @@ import {getGameStatus, startGame} from "../api";
 import {useGameId, useUsername} from "../hook";
 import {PlayerHand} from "./PlayerHand";
 import {Deck} from "./Deck";
+import {GameEvents} from "./GameEvents";
 
 function StartGameFunc(props: { gameStatus: GameStatus | null}) {
     const {gameStatus} = props
@@ -43,16 +44,16 @@ export function GameRoom(props: { visitFunc: (view: ViewState) => void}) {
             setGameStatus(status);
         });
 
-        // const intervalId = setInterval(() => {
-        //     // auto-refresh GameStatus
-        //     getGameStatus(gameId, username).then((status: GameStatus) => {
-        //         setGameStatus(status);
-        //     });
-        // }, 5 * 1000);
-        //
-        // return () => {
-        //     clearInterval(intervalId);
-        // };
+        const intervalId = setInterval(() => {
+            // auto-refresh GameStatus
+            getGameStatus(gameId, username).then((status: GameStatus) => {
+                setGameStatus(status);
+            });
+        }, 5 * 1000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 
     return (
@@ -92,6 +93,7 @@ export function GameRoom(props: { visitFunc: (view: ViewState) => void}) {
                 {/*Game status*/}
                 <div className="w-[25vw] p-4 border-l-2 border-slate-400 shadow-amber-300">
                     <GameStatusBoard gameStatus={gameStatus}/>
+                    <GameEvents events={gameStatus?.events} />
                 </div>
             </div>
         </>

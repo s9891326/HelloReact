@@ -1,3 +1,5 @@
+import {GameEvent} from "./event";
+
 export type ViewState = "pick-name" | "game-list" | "game-room";
 
 interface NamedPlayer {
@@ -33,4 +35,5 @@ export interface GameStatus {
     game_id: string;
     players: Array<NamedPlayer>;
     rounds: Array<Round>;
+    events: Array<GameEvent>;
 }
