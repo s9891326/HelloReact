@@ -1,4 +1,5 @@
 import axios, {RawAxiosRequestHeaders} from "axios";
+import {GameStatus} from "../types";
 
 const defaultHeaders: RawAxiosRequestHeaders = {
     Accept: "application/json",
@@ -46,5 +47,15 @@ export async function getGameStatus(gameId: string, playerId: string) {
 
 export async function startGame(gameId: string) {
     const response = await backendAxios.post(`/games/${gameId}/start`);
+    return response.data;
+}
+
+export async function playCard(
+    gameId: string,
+    username: string,
+    card: string,
+    payload: {[ props: string ]: string}
+): Promise<GameStatus> {
+    const response = await backendAxios.post(`/games/${gameId}/player/${username}/card/${card}/play`);
     return response.data;
 }

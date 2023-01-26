@@ -1,4 +1,7 @@
 import {HandCard} from "../types";
+import {useRef, useState} from "react";
+import {playCard} from "../api";
+import {useGameId, useUsername} from "../hook";
 
 export function CardBack(props: { enabled: boolean }) {
     let cssConfig = {};
@@ -37,6 +40,76 @@ export function CardFront(props: { handCard: HandCard }) {
                 <div className="text-2xl">{handCard.name}</div>
                 <div className="text-[8pt] mt-2 p-1">{handCard.description}</div>
             </div>
+            <div>
+                <Action handCard={handCard} />
+            </div>
         </div>
     );
+}
+
+function Action(props: { handCard: HandCard }) {
+    const [gameId] = useGameId();
+    const [username] = useUsername();
+    const { handCard } = props;
+    const refChoosePlayer = useRef(null);
+    const refGuessCard = useRef(null);
+    const testInput = useRef(null);
+
+
+    console.log(handCard)
+
+    if (!handCard.usage.can_discard) {
+        return <></>
+    }
+
+    const hasPlayerOptions = handCard.usage.choose_players.length > 0;
+    const hasGuessCards = handCard.usage.can_guess_cards.length > 0;
+
+    return (
+        <>
+            <p></p>
+            {hasPlayerOptions && (
+                <select
+                    className={"block w-full"}
+                    value={handCard.usage.choose_players}
+                    ref={refChoosePlayer}
+                >
+                    {handCard.usage.choose_players.map((p) => (
+                        <option value={p}>{p}</option>
+                    ))}
+                </select>
+            )}
+
+            {hasGuessCards && (
+                <select
+                    className={"block w-full"}
+                    defaultValue={handCard.usage.can_guess_cards}
+                    ref={refGuessCard}
+                    onChange={(e) => {console.log(e.target.value)}}
+                >
+                    {handCard.usage.can_guess_cards.map((c) => (
+                        <option value={c}>c</option>
+                    ))}
+                </select>
+            )}
+
+            <input ref={testInput} placeholder={"test"}/>
+
+            <button onClick={() => {
+                const payload: {[ props: string ]: string} = {};
+
+                if (refChoosePlayer.current) {
+                    payload.chosen_player = (refChoosePlayer.current as unknown as HTMLSelectElement).value;
+                }
+
+                if (refGuessCard.current) {
+                    payload.guess_card = (refGuessCard.current as unknown as HTMLSelectElement).value;
+                }
+
+                const result = playCard(gameId, username, handCard.name, payload);
+            }}>
+                打牌
+            </button>
+        </>
+    )
 }

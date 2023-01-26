@@ -7,7 +7,6 @@ import play = Simulate.play;
 export function PlayerHand(props: {index: number, gameStatus: GameStatus | null}) {
     const [username] = useUsername()
     const { index, gameStatus } = props
-    console.log(gameStatus);
 
     if (gameStatus == null) {
         return <CardBack enabled={false}/>;
@@ -30,7 +29,6 @@ export function PlayerHand(props: {index: number, gameStatus: GameStatus | null}
     if (currentRound) {
         isTurnPlayer = currentRound.turn_player.name === playerName;
     }
-    console.log(isTurnPlayer, isCurrentUser, "username: " + username, "playerName: " + playerName);
 
     let handCards: Array<HandCard> = [];
     if (currentRound) {
