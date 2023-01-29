@@ -1,7 +1,7 @@
-import {HandCard} from "../types";
+import {HandCard} from "@/types";
 import {useRef, useState} from "react";
-import {playCard} from "../api";
-import {useGameId, useUsername} from "../hook";
+import {playCard} from "@/api";
+import {useGameId, useUsername} from "@/hook";
 
 export function CardBack(props: { enabled: boolean }) {
     let cssConfig = {};

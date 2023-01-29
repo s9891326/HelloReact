@@ -5,10 +5,9 @@ import './App.css';
 // import {addArticle} from "./store/actionCreators";
 // import {AddArticle} from "./components/AddArticle";
 // import {BrowserRouter, Route, Routes, Link} from "react-router-dom";
-import {ViewState} from "./types";
+import {ViewState} from "@/types";
 // import {NameUI} from "./components/NameUI";
-import {GameRoom} from "./components/GameRoom";
-import {CreateOrJoinGame} from "./components/CreateOrJoinGame";
+import { CreateOrJoinGame, GameRoom } from "@/components";
 
 // function Index() {
 //     return <h2>Home</h2>;

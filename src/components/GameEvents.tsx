@@ -1,5 +1,5 @@
 import new_icon from "./icons8-new-60.png";
-import {GameEvent} from "../types/event";
+import {GameEvent} from "@/types/event";
 
 export function GameEvents(props: { events?: Array<GameEvent> }) {
     const {events} = props;

@@ -1,4 +1,4 @@
-import { CardBack } from "./Cards";
+import { CardBack } from "@/components";
 import React from "react";
 
 export function Deck() {

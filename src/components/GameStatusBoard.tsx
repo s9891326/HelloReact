@@ -1,6 +1,6 @@
-import {GameStatus} from "../types";
-import {Seen} from "../types/game";
-import {useUsername} from "../hook";
+import {GameStatus} from "@/types";
+import {Seen} from "@/types/game";
+import {useUsername} from "@/hook";
 
 
 function PlayerItem(props: {name: string, index: number}) {

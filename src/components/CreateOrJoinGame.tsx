@@ -1,6 +1,6 @@
-import {ViewState} from "../types";
-import {useGameId, useUsername} from "../hook";
-import {createGame, joinGame} from "../api";
+import {ViewState} from "@/types";
+import {useGameId, useUsername} from "@/hook";
+import {createGame, joinGame} from "@/api";
 import React from "react";
 
 

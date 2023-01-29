@@ -1,11 +1,8 @@
-import {GameStatus, ViewState} from "../types";
+import {GameStatus, ViewState} from "@/types";
 import React, {useEffect, useState} from "react";
-import {GameStatusBoard} from "./GameStatusBoard";
-import {getGameStatus, startGame} from "../api";
-import {useGameId, useUsername} from "../hook";
-import {PlayerHand} from "./PlayerHand";
-import {Deck} from "./Deck";
-import {GameEvents} from "./GameEvents";
+import {getGameStatus, startGame} from "@/api";
+import {useGameId, useUsername} from "@/hook";
+import {PlayerHand, Deck, GameEvents, GameStatusBoard} from "@/components";
 
 function StartGameFunc(props: { gameStatus: GameStatus | null}) {
     const {gameStatus} = props

@@ -1,5 +1,5 @@
-import {GameEvent} from "./event";
-import {Seen} from "./game";
+import {GameEvent} from "@/types/event";
+import {Seen} from "@/types/game";
 
 export type ViewState = "pick-name" | "game-list" | "game-room";
 

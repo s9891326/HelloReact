@@ -1,6 +1,6 @@
-import {GameStatus, HandCard, NamedPlayer} from "../types";
-import {useUsername} from "../hook";
-import {CardBack, CardFront} from "./Cards";
+import {GameStatus, HandCard, NamedPlayer} from "@/types";
+import {useUsername} from "@/hook";
+import {CardBack, CardFront} from "@/components";
 
 export function PlayerHand(props: { index: number, gameStatus: GameStatus | null }) {
     const [username] = useUsername()
