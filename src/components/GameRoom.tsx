@@ -1,8 +1,9 @@
 import {GameStatus, ViewState} from "@/types";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {getGameStatus, startGame} from "@/api";
 import {useGameId, useUsername} from "@/hook";
 import {PlayerHand, Deck, GameEvents, GameStatusBoard} from "@/components";
+import {GameContext} from "@/providers";
 
 function StartGameFunc(props: { gameStatus: GameStatus | null}) {
     const {gameStatus} = props
@@ -29,29 +30,12 @@ function StartGameFunc(props: { gameStatus: GameStatus | null}) {
 }
 
 export function GameRoom(props: { visitFunc: (view: ViewState) => void}) {
-    const [gameStatus, setGameStatus] = useState<GameStatus | null>(null);
-    const [username] = useUsername();
-    const [gameId] = useGameId();
+    const context = useContext(GameContext);
+    if (!context.IsReady()) {
+        return <></>;
+    }
 
-
-    // refresh GameStatus every 5 seconds.
-    useEffect(() => {
-        // set GameStatus before the refresher triggered
-        getGameStatus(gameId, username).then((status: GameStatus) => {
-            setGameStatus(status);
-        });
-
-        // const intervalId = setInterval(() => {
-        //     // auto-refresh GameStatus
-        //     getGameStatus(gameId, username).then((status: GameStatus) => {
-        //         setGameStatus(status);
-        //     });
-        // }, 5 * 1000);
-        //
-        // return () => {
-        //     clearInterval(intervalId);
-        // };
-    }, []);
+    const gameStatus = context.gameStatus;
 
     return (
         <>
@@ -59,25 +43,25 @@ export function GameRoom(props: { visitFunc: (view: ViewState) => void}) {
                 <div className="w-[75vw] p-4 flex flex-col mx-auto">
                     <div className="flex flex-grow items-center justify-center">
                         <div className="flex h-[20vh]">
-                            <PlayerHand index={2} gameStatus={gameStatus} />
+                            <PlayerHand index={2} />
                         </div>
                     </div>
 
                     <div className="flex flex-grow items-center justify-center">
                         <div className="flex h-[20vh]">
-                            <PlayerHand index={3} gameStatus={gameStatus} />
+                            <PlayerHand index={3} />
                         </div>
                         <div className="flex h-[20vh] w-[300px] m-4 ml-16 mr-16">
                             <Deck></Deck>
                         </div>
                         <div className="flex h-[20vh]">
-                            <PlayerHand index={1} gameStatus={gameStatus} />
+                            <PlayerHand index={1} />
                         </div>
                     </div>
 
                     <div className="flex flex-grow items-center justify-center">
                         <div className="flex h-[20vh]">
-                            <PlayerHand index={0} gameStatus={gameStatus} />
+                            <PlayerHand index={0} />
                         </div>
                     </div>
 
@@ -89,7 +73,7 @@ export function GameRoom(props: { visitFunc: (view: ViewState) => void}) {
 
                 {/*Game status*/}
                 <div className="w-[25vw] p-4 border-l-2 border-slate-400 shadow-amber-300">
-                    <GameStatusBoard gameStatus={gameStatus}/>
+                    <GameStatusBoard />
                     <GameEvents events={gameStatus?.events} />
                 </div>
             </div>

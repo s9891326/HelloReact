@@ -1,6 +1,6 @@
-import {GameStatus} from "@/types";
 import {Seen} from "@/types/game";
-import {useUsername} from "@/hook";
+import {useContext} from "react";
+import {GameContext} from "@/providers";
 
 
 function PlayerItem(props: {name: string, index: number}) {
@@ -20,9 +20,15 @@ function PlayerItem(props: {name: string, index: number}) {
     )
 }
 
-export function  GameStatusBoard(props: {gameStatus: GameStatus | null}) {
-    const { gameStatus } = props;
-    const [username] = useUsername();
+export function  GameStatusBoard() {
+    const context = useContext(GameContext)
+    if (!context.IsReady()) {
+        return <></>
+    }
+
+    const gameStatus = context.gameStatus;
+    const username = context.GetUsername();
+
     let gameProgress = "...(未知)...";
     let seens: Array<Seen> = [];
 
@@ -51,7 +57,7 @@ export function  GameStatusBoard(props: {gameStatus: GameStatus | null}) {
             gameProgress = `等待 ${currentRound.turn_player.name} 出牌~`;
 
             currentRound.players.map((p) => {
-                if (p.name ===  username) {
+                if (p.name === username) {
                     seens = p.seen_cards;
                 }
             });

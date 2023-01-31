@@ -8,6 +8,7 @@ import './App.css';
 import {ViewState} from "@/types";
 // import {NameUI} from "./components/NameUI";
 import { CreateOrJoinGame, GameRoom } from "@/components";
+import {GameDataProvider} from "@/providers";
 
 // function Index() {
 //     return <h2>Home</h2>;
@@ -170,8 +171,12 @@ function GameUI() {
         <>
             {flow === "pick-name" && <CreateOrJoinGame visitFunc={setFlow}/>}
             {/*{flow === "pick-name" && <NameUI visitFunc={setFlow}/>}*/}
-            {flow === "game-list" && <GameList visitFunc={setFlow}/>}
-            {flow === "game-room" && <GameRoom visitFunc={setFlow}/>}
+            {/*{flow === "game-list" && <GameList visitFunc={setFlow}/>}*/}
+            {flow === "game-room" && (
+                <GameDataProvider>
+                    <GameRoom visitFunc={setFlow}/>
+                </GameDataProvider>
+            )}
         </>
     )
 }

@@ -1,12 +1,16 @@
 import {GameStatus, HandCard, NamedPlayer} from "@/types";
 import {useUsername} from "@/hook";
 import {CardBack, CardFront} from "@/components";
+import {useContext} from "react";
+import {GameContext} from "@/providers";
 
-export function PlayerHand(props: { index: number, gameStatus: GameStatus | null }) {
+export function PlayerHand(props: { index: number }) {
     const [username] = useUsername()
-    const {index, gameStatus} = props
+    const {index} = props
+    const context = useContext(GameContext);
+    const gameStatus = context.gameStatus;
 
-    if (gameStatus == null) {
+    if (!context.IsReady() || gameStatus == null) {
         return <CardBack enabled={false}/>;
     }
 
