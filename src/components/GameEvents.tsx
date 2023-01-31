@@ -59,7 +59,7 @@ function RoundEventView(props: { event: GameEvent, index: number }) {
     } else {
         annotated = (
             <div className="m-1 p-2 min-h-[1rem] pl-3 rounded-xl flex items-center text-[12px]">
-                <p>{context.GetTurnPlayer()}</p>
+                <p>{context.GetStartPlayer()}</p>
                 <p>為起始玩家</p>
             </div>
         )

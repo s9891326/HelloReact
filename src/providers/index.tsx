@@ -8,13 +8,19 @@ export interface GameInformation {
     GameStatus: () => GameStatus;
     IsReady: () => boolean;
     GetUsername: () => string;
-    GetTurnPlayer: () => string;
+    GetTurnPlayer: () => TurnPlayer;
+    GetStartPlayer: () => string;
+    IsMyTurn: () => boolean;
 }
 
 class BeforeReadyGameInformation implements GameInformation {
     unknown = "<unknown>";
 
-    GetTurnPlayer(): string {
+    GetTurnPlayer(): TurnPlayer {
+        return {cards: [], name: "unknown", out: false};
+    }
+
+    GetStartPlayer(): string {
         return this.unknown;
     }
 
@@ -33,6 +39,10 @@ class BeforeReadyGameInformation implements GameInformation {
     GameStatus(): GameStatus {
         return {events: [], game_id: "", players: [], rounds: []};
     }
+
+    IsMyTurn(): boolean {
+        return false;
+    }
 }
 
 class ConcreteGameInformation implements GameInformation {
@@ -42,13 +52,18 @@ class ConcreteGameInformation implements GameInformation {
         this.gameStatus = gameStatus;
     }
 
-
-    GetTurnPlayer(): string {
+    GetStartPlayer(): string {
         if (this.gameStatus.rounds.length === 0) {
             return "unknown";
         }
-
         return this.gameStatus.rounds[this.gameStatus.rounds.length - 1].start_player;
+    }
+
+    GetTurnPlayer(): TurnPlayer {
+        if (this.gameStatus.rounds.length === 0) {
+            return {cards: [], name: "unknown", out: false};
+        }
+        return this.gameStatus.rounds[this.gameStatus.rounds.length - 1].turn_player;
     }
 
     GetUsername(): string {
@@ -65,6 +80,10 @@ class ConcreteGameInformation implements GameInformation {
 
     GameStatus(): GameStatus {
         return this.gameStatus;
+    }
+
+    IsMyTurn(): boolean {
+        return this.GetTurnPlayer().name === this.username;
     }
 
     gameId: string;
@@ -92,16 +111,16 @@ export function GameDataProvider(props: GameDataProviderProps) {
             setGameStatus(status);
         });
 
-        // const intervalId = setInterval(() => {
-        //     // auto-refresh GameStatus
-        //     getGameStatus(gameId, username).then((status: GameStatus) => {
-        //         setGameStatus(status);
-        //     });
-        // }, 2 * 1000);
-        //
-        // return () => {
-        //     clearInterval(intervalId);
-        // };
+        const intervalId = setInterval(() => {
+            // auto-refresh GameStatus
+            getGameStatus(gameId, username).then((status: GameStatus) => {
+                setGameStatus(status);
+            });
+        }, 2 * 1000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 
     let value: GameInformation = new BeforeReadyGameInformation();

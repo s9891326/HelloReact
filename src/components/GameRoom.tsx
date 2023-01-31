@@ -50,7 +50,7 @@ export function GameRoom(props: { visitFunc: (view: ViewState) => void}) {
                         <div className="flex h-[20vh]">
                             <PlayerHand index={3} />
                         </div>
-                        <div className="flex h-[20vh] w-[300px] m-4 ml-16 mr-16">
+                        <div className="flex h-[20vh] w-[350px] m-4 ml-16 mr-16">
                             <Deck></Deck>
                         </div>
                         <div className="flex h-[20vh]">
@@ -73,7 +73,7 @@ export function GameRoom(props: { visitFunc: (view: ViewState) => void}) {
                 {/*Game status*/}
                 <div className="w-[25vw] p-4 border-l-2 border-slate-400 shadow-amber-300">
                     <GameStatusBoard />
-                    <GameEvents />
+                    <GameEvents key={1}/>
                 </div>
             </div>
         </>
