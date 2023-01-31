@@ -27,13 +27,19 @@ export interface HandCard {
 
 interface Players {
     name: string;
-    out: boolean;
     cards: Array<HandCard>;
     seen_cards: Array<Seen>;
 }
 
+export interface TurnPlayer {
+    name: string;
+    out: boolean;
+    cards: Array<HandCard>;
+}
+
 export interface Round {
     players: Array<Players>;
-    turn_player: Players;
+    turn_player: TurnPlayer;
     winner?: string;
+    start_player: string;
 }

@@ -8,7 +8,7 @@ export function PlayerHand(props: { index: number }) {
     const [username] = useUsername()
     const {index} = props
     const context = useContext(GameContext);
-    const gameStatus = context.gameStatus;
+    const gameStatus = context.GameStatus();
 
     if (!context.IsReady() || gameStatus == null) {
         return <CardBack enabled={false}/>;

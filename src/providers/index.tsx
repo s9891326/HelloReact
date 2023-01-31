@@ -1,25 +1,80 @@
-import {GameStatus} from "@/types";
+import {GameStatus, TurnPlayer} from "@/types";
 import {createContext, ReactNode, useEffect, useState} from "react";
 import {useGameId, useUsername} from "@/hook";
 import {getGameStatus} from "@/api";
 
 export interface GameInformation {
-    gameId: string;
-    gameStatus: GameStatus | null;
+    GameId: () => string;
+    GameStatus: () => GameStatus;
     IsReady: () => boolean;
     GetUsername: () => string;
+    GetTurnPlayer: () => string;
 }
 
-export const GameContext = createContext<GameInformation>({
+class BeforeReadyGameInformation implements GameInformation {
+    unknown = "<unknown>";
+
+    GetTurnPlayer(): string {
+        return this.unknown;
+    }
+
     GetUsername(): string {
-        return "";
-    },
+        return this.unknown;
+    }
+
     IsReady(): boolean {
         return false;
-    },
-    gameId: "",
-    gameStatus: null
-});
+    }
+
+    GameId(): string {
+        return this.unknown;
+    }
+
+    GameStatus(): GameStatus {
+        return {events: [], game_id: "", players: [], rounds: []};
+    }
+}
+
+class ConcreteGameInformation implements GameInformation {
+    constructor(gameId: string, username: string, gameStatus: GameStatus) {
+        this.gameId = gameId;
+        this.username = username;
+        this.gameStatus = gameStatus;
+    }
+
+
+    GetTurnPlayer(): string {
+        if (this.gameStatus.rounds.length === 0) {
+            return "unknown";
+        }
+
+        return this.gameStatus.rounds[this.gameStatus.rounds.length - 1].start_player;
+    }
+
+    GetUsername(): string {
+        return this.username;
+    }
+
+    IsReady(): boolean {
+        return this.gameStatus != null;
+    }
+
+    GameId(): string {
+        return this.gameId;
+    }
+
+    GameStatus(): GameStatus {
+        return this.gameStatus;
+    }
+
+    gameId: string;
+    username: string;
+    gameStatus: GameStatus;
+}
+
+export const GameContext = createContext<GameInformation>(
+    new BeforeReadyGameInformation()
+);
 
 interface GameDataProviderProps {
     children: ReactNode
@@ -49,14 +104,10 @@ export function GameDataProvider(props: GameDataProviderProps) {
         // };
     }, []);
 
-    const value: GameInformation = {
-        gameId,
-        gameStatus,
-        IsReady: () => {
-            return gameStatus != null;
-        },
-        GetUsername: () => username,
-    };
+    let value: GameInformation = new BeforeReadyGameInformation();
+    if (gameStatus !== null) {
+        value = new ConcreteGameInformation(gameId, username, gameStatus);
+    }
 
     return (
         <GameContext.Provider value={value}>{props.children}</GameContext.Provider>

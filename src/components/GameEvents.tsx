@@ -1,8 +1,15 @@
 import new_icon from "./icons8-new-60.png";
 import {GameEvent} from "@/types/event";
+import {useContext} from "react";
+import {GameContext} from "@/providers";
 
-export function GameEvents(props: { events?: Array<GameEvent> }) {
-    const {events} = props;
+export function GameEvents() {
+    const context = useContext(GameContext);
+    if (!context.IsReady()) {
+        return <></>;
+    }
+
+    const events = context.GameStatus()?.events;
 
     if (events === null || events?.length === 0) {
         return (
@@ -32,23 +39,36 @@ export function GameEvents(props: { events?: Array<GameEvent> }) {
     )
 }
 
-
 function RoundEventView(props: { event: GameEvent, index: number }) {
+    const context = useContext(GameContext);
     const {event, index} = props;
 
     if (event.type !== "round_started") {
         return <></>
     }
 
+    let annotated: JSX.Element = <></>;
+
+    if (event.winner) {
+        annotated = (
+            <div className="m-1 p-2 min-h-[1rem] pl-3 rounded-xl flex items-center text-[12px]">
+                <p>{event.winner}</p>
+                <p>成功送信給公主</p>
+            </div>
+        )
+    } else {
+        annotated = (
+            <div className="m-1 p-2 min-h-[1rem] pl-3 rounded-xl flex items-center text-[12px]">
+                <p>{context.GetTurnPlayer()}</p>
+                <p>為起始玩家</p>
+            </div>
+        )
+    }
+
     return (
         <div className="m-1 p-2 min-h-[1rem] pl-3 rounded-xl flex items-center text-[12px]">
             <p>round started: </p>
-            {event.winner && (
-                <>
-                    <p>{event.winner}</p>
-                    <p>成功送信給公主</p>
-                </>
-            )}
+            {annotated}
         </div>
     );
 }

@@ -158,11 +158,11 @@ import {GameDataProvider} from "@/providers";
 // }
 
 
-function GameList(props: { visitFunc: (view: ViewState) => void}) {
-    return (
-        <div>123</div>
-    )
-}
+// function GameList(props: { visitFunc: (view: ViewState) => void}) {
+//     return (
+//         <div>123</div>
+//     )
+// }
 
 function GameUI() {
     const [flow, setFlow] = useState<ViewState>("pick-name");

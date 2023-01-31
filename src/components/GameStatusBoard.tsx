@@ -26,7 +26,7 @@ export function  GameStatusBoard() {
         return <></>
     }
 
-    const gameStatus = context.gameStatus;
+    const gameStatus = context.GameStatus();
     const username = context.GetUsername();
 
     let gameProgress = "...(未知)...";

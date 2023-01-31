@@ -1,7 +1,6 @@
 import {GameStatus, ViewState} from "@/types";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from "react";
 import {getGameStatus, startGame} from "@/api";
-import {useGameId, useUsername} from "@/hook";
 import {PlayerHand, Deck, GameEvents, GameStatusBoard} from "@/components";
 import {GameContext} from "@/providers";
 
@@ -35,7 +34,7 @@ export function GameRoom(props: { visitFunc: (view: ViewState) => void}) {
         return <></>;
     }
 
-    const gameStatus = context.gameStatus;
+    const gameStatus = context.GameStatus();
 
     return (
         <>
@@ -74,7 +73,7 @@ export function GameRoom(props: { visitFunc: (view: ViewState) => void}) {
                 {/*Game status*/}
                 <div className="w-[25vw] p-4 border-l-2 border-slate-400 shadow-amber-300">
                     <GameStatusBoard />
-                    <GameEvents events={gameStatus?.events} />
+                    <GameEvents />
                 </div>
             </div>
         </>
