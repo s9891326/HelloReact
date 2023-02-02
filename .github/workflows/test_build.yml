@@ -1,0 +1,17 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build test
+        run: |
+          craco build
