@@ -1,6 +1,6 @@
 import {GameStatus, HandCard, NamedPlayer} from "@/types";
 import {useUsername} from "@/hook";
-import {CardBack, CardFront} from "@/components";
+import {CardBack, CardFront} from "@/components/index";
 import {useContext} from "react";
 import {GameContext} from "@/providers";
 

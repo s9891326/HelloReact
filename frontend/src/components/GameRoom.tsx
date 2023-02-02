@@ -1,7 +1,7 @@
 import {GameStatus, ViewState} from "@/types";
 import React, {useContext} from "react";
 import {getGameStatus, startGame} from "@/api";
-import {PlayerHand, Deck, GameEvents, GameStatusBoard} from "@/components";
+import {PlayerHand, Deck, GameEvents, GameStatusBoard} from "@/components/index";
 import {GameContext} from "@/providers";
 
 function StartGameFunc(props: { gameStatus: GameStatus | null}) {
