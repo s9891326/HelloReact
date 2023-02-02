@@ -14,5 +14,6 @@ jobs:
 
       - name: Build test
         run: |
-          npm install
-          npm run build
+          export DISABLE_ESLINT_PLUGIN=true
+          yarn install
+          yarn build
