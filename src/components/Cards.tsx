@@ -46,7 +46,7 @@ export function CardFront(props: { handCard: HandCard }) {
 
 
 export function CardAction(props: { handCard: HandCard }) {
-    // const [gameId] = useGameId();
+    const [gameId] = useGameId();
     const [username] = useUsername();
     const {handCard} = props;
     const refChoosePlayer = useRef(null);
