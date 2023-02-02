@@ -8,12 +8,12 @@ on:
 jobs:
   build_test:
     runs-on: ubuntu-latest
-    working-directory: frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Build test
+        working-directory: frontend
         run: |
           export DISABLE_ESLINT_PLUGIN=true
           yarn install
